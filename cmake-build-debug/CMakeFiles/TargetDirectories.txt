@@ -1,3 +1,0 @@
-/home/hyde/CLionProjects/rgb/cmake-build-debug/CMakeFiles/rgb.dir
-/home/hyde/CLionProjects/rgb/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/hyde/CLionProjects/rgb/cmake-build-debug/CMakeFiles/rebuild_cache.dir
