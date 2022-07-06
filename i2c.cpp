@@ -33,23 +33,35 @@ bool i2c::Init(){
     i2c_smbus_write_byte_data(_fd, VAF_CTL_REG2, (MSKFORCEVAFCTL_DISABLE | MSKFORCEVAFTIME_CONST | MSKVAF3));
     i2c_smbus_write_byte_data(_fd, CURRENT_CTL_REG, (MSKCURRENT_CTL_EN | CONST_CURRENT_STEP_20mA));
     i2c_smbus_write_byte_data(_fd, CONFIGURE_CMD_PAGE, FRAME1_PAGE);
-    //PENDING
-    i2c_smbus_write_word_data(_fd,)
+    for (__u8 i = 0x00; i < 0xB3 ; ++i) {
+        i2c_smbus_write_byte_data(_fd, i, 0x00);
+    }
     i2c_smbus_write_byte_data(_fd, CONFIGURE_CMD_PAGE, FRAME2_PAGE);
-    //PENDING
+    for (__u8 i = 0x00; i < 0xB3 ; ++i) {
+        i2c_smbus_write_byte_data(_fd, i, 0x00);
+    }
     i2c_smbus_write_byte_data(_fd, CONFIGURE_CMD_PAGE, LED_VAF_PAGE);
-    //PENDING
+
+    for (__u8 i = 0x00; i < 0x40 ; ++i) {
+        i2c_smbus_write_byte_data(_fd, i, Type3Vaf[i]);
+    }
+
     i2c_smbus_write_byte_data(_fd, CONFIGURE_CMD_PAGE, FUNCTION_PAGE);
     i2c_smbus_write_byte_data(_fd, SW_SHUT_DOWN_REG, 0x01);
     i2c_smbus_write_byte_data(_fd, CONFIGURE_CMD_PAGE, FRAME1_PAGE);
-    //PENDING
-    //PENDING
+    for (__u8 i = 0x00; i < 0x10 ; ++i) {
+        i2c_smbus_write_byte_data(_fd, i, 0xFF);
+    }
+    for (__u8 i = 0x20; i < 0x80 ; ++i) {
+        i2c_smbus_write_byte_data(_fd, i, 0x00);
+    }
     i2c_smbus_write_byte_data(_fd, CONFIGURE_CMD_PAGE, FRAME2_PAGE);
-    //PENDING
-    //PENDING
-
-
-
+    for (__u8 i = 0x00; i < 0x10 ; ++i) {
+        i2c_smbus_write_byte_data(_fd, i, 0xFF);
+    }
+    for (__u8 i = 0x20; i < 0x80 ; ++i) {
+        i2c_smbus_write_byte_data(_fd, i, 0x00);
+    }
     return true;
 }
 
