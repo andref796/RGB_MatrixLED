@@ -4,8 +4,10 @@
 #include <unistd.h>				//Needed for I2C port
 #include <fcntl.h>				//Needed for I2C port
 #include <sys/ioctl.h>			//Needed for I2C port
-#include <linux/i2c-dev.h>		//Needed for I2C port
-#include <i2c/smbus.h>
+extern "C" {
+    #include <linux/i2c-dev.h>		//Needed for I2C port
+    #include <i2c/smbus.h>
+}
 #include "i2c.h"
 
 bool i2c::Open() {
