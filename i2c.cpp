@@ -2,6 +2,7 @@
 // Created by hyde on 19/06/22.
 //
 #include <unistd.h>				//Needed for I2C port
+#include <iostream>
 #include <fcntl.h>				//Needed for I2C port
 #include <sys/ioctl.h>			//Needed for I2C port
 extern "C" {
@@ -27,6 +28,10 @@ bool i2c::Close() {
 
 bool i2c::Init(){
     i2c_smbus_write_byte_data(_fd, CONFIGURE_CMD_PAGE, FUNCTION_PAGE);
+
+    std::cout << "Configure_Cmd_Page: " <<  i2c_smbus_read_byte_data(_fd,CONFIGURE_CMD_PAGE) << std::endl;
+
+
     i2c_smbus_write_byte_data(_fd, SW_SHUT_DOWN_REG, 0x00);
     i2c_smbus_write_byte_data(_fd, PICTURE_DISPLAY_REG, 0x10);
     i2c_smbus_write_byte_data(_fd, STAGGERED_DELAY_REG, ((MSKSTD4 & CONST_STD_GROUP4)|(MSKSTD3 & CONST_STD_GROUP3)|(MSKSTD2 & CONST_STD_GROUP2)|(MSKSTD1 & CONST_STD_GROUP1)));
