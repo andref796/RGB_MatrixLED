@@ -166,10 +166,11 @@ bool i2c::ShowImage() {
     return true;
 }
 
-i2c::DrawPoint(__u8 coor[2],__u8 R,__u8 G,__u8 B){
+bool i2c::DrawPoint(__u8 coor[2],__u8 R,__u8 G,__u8 B){
     rgb_test[8*coor[1]+coor[0]][0] = B;
     rgb_test[8*coor[1]+coor[0]][1] = G;
     rgb_test[8*coor[1]+coor[0]][2] = R;
+    return true;
 }
 
 i2c::~i2c() {
