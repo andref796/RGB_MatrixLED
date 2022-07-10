@@ -81,12 +81,16 @@ public:
     bool Open();
     bool Close();
     bool Init();
-    bool Write();
+    bool ShowImage();
+    bool DrawPoint(__u8 coor[2],__u8 R,__u8 G,__u8 B);
     bool Read();
 
 private:
     int _fd = 0;
     int _addr = 0;
+
+    __u8 rgb_test [64][3] = {};
+
 };
 
 

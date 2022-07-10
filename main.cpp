@@ -11,6 +11,7 @@ int main()
 
     testI2c.Open();
     testI2c.Init();
-
+    __u8 dot = {3,1};
+    testI2c.DrawPoint(dot, 255, 255, 0);
 
 }
