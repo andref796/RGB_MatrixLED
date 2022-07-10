@@ -74,7 +74,7 @@ bool i2c::Init(){
 }
 
 bool i2c::ShowImage() {
-    __u8 revertImage[3][64] = {};
+    __u8 revert_image[3][64] = {};
     
     for(int i = 0; i<64;i++){
       revert_image[0][i] = rgb_test[i][1];
