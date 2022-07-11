@@ -145,8 +145,7 @@ bool i2c::ShowImage() {
       //    Serial.print(" ");
       //  }
       //  Serial.println(i);
-        i2c_smbus_write_block_data(_fd, reg, data_lenth, insert_data);
-        
+        i2c_smbus_write_i2c_block_data(_fd, reg, data_lenth, insert_data);
         if (color == 2){
             empty += 3;
             pos += 1;
