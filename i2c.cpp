@@ -101,7 +101,7 @@ bool i2c::ShowImage() {
     __u8 color = i % 3;
 
     __u8 pos_data = pos * 14;
-      int data_left = 64 - (pos+1) * 14;
+      int data_left = 64-1 - (pos+1) * 14;
 
         __u8 data_lenth = 0;
         if (data_left > 0) {
@@ -145,7 +145,7 @@ bool i2c::ShowImage() {
       //    Serial.print(" ");
       //  }
       //  Serial.println(i);
-        i2c_smbus_write_block_data(_fd, reg, data_lenth+2, insert_data);
+        i2c_smbus_write_block_data(_fd, reg, data_lenth, insert_data);
         
         if (color == 2){
             empty += 3;

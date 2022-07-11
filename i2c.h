@@ -89,7 +89,7 @@ private:
     int _fd = 0;
     int _addr = 0;
 
-    __u8 rgb_test [64][3] = {};
+    __u8 rgb_test [64][3] = {0};
 
 };
 
