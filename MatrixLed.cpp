@@ -9,10 +9,11 @@ extern "C" {
     #include <linux/i2c-dev.h>		//Needed for I2C port
     #include <i2c/smbus.h>
 }
-#include "i2c.h"
+#include "MatrixLed.h"
+#include <math.h>
 
-bool i2c::Open() {
-    if( (_fd = open("/dev/i2c-1",O_RDWR)) < 0 ){
+bool MatrixLed::Open() {
+    if( (_fd = open("/dev/MatrixLed-1",O_RDWR)) < 0 ){
         return false;
     }
     if(ioctl(_fd, I2C_SLAVE, _addr) < 0){
@@ -21,12 +22,12 @@ bool i2c::Open() {
     return true;
 }
 
-bool i2c::Close() {
+bool MatrixLed::Close() {
     close(_fd);
     return true;
 }
 
-bool i2c::Init(){
+bool MatrixLed::Init(){
     i2c_smbus_write_byte_data(_fd, CONFIGURE_CMD_PAGE, FUNCTION_PAGE);
     //std::cout << "Configure_Cmd_Page: " <<  i2c_smbus_read_byte_data(_fd,CONFIGURE_CMD_PAGE) << std::endl;
     i2c_smbus_write_byte_data(_fd, SW_SHUT_DOWN_REG, 0x0);
@@ -73,7 +74,7 @@ bool i2c::Init(){
     return true;
 }
 
-bool i2c::ShowImage() {
+bool MatrixLed::ShowImage() {
     __u8 revert_image[3][64] = {};
     
     for(int i = 0; i<64;i++){
@@ -165,13 +166,65 @@ bool i2c::ShowImage() {
     return true;
 }
 
-bool i2c::DrawPoint(__u8 coor[2],__u8 R,__u8 G,__u8 B){
+bool MatrixLed::DrawPoint(__u8 coor[2], __u8 R, __u8 G, __u8 B){
     rgb_test[8*coor[1]+coor[0]][0] = B;
     rgb_test[8*coor[1]+coor[0]][1] = G;
     rgb_test[8*coor[1]+coor[0]][2] = R;
     return true;
 }
 
-i2c::~i2c() {
+bool MatrixLed::ShowHex(const __u8 * hex, __u8 R, __u8 G, __u8 B) {
+    char i,j,temp;
+    unsigned char chrtemp[24] = {0};
+    unsigned char x,y,temp2;
+    unsigned char chrtemp2[24] = {0};
+
+    y = 0;
+    temp2 = 0;
+    for(int dex = 0;dex<8;dex++){
+        for(x=0;x<8;x++){
+
+            if((hex[x]<<dex) & 0x80)
+            {
+                temp2 = 1*pow(2,x) + temp2;
+                chrtemp2[y] = temp2;
+            }
+            else{
+                temp2 = 0*pow(2,x) + temp2;
+                chrtemp2[y] = temp2;
+            }
+        }
+        temp2 = 0;
+        y++;
+    }
+
+    for(i = 0;i < 8;i++)
+    {
+        temp = chrtemp2[i];
+        for(j = 7;j > -1;j--)
+        {
+            if(temp & 0x80)
+            {
+                rgb_test[8*j+i][0] = B;
+                rgb_test[8*j+i][1] = G;
+                rgb_test[8*j+i][2] = R;
+            }
+            else
+            {
+                rgb_test[8*j+i][0] = 0;
+                rgb_test[8*j+i][1] = 0;
+                rgb_test[8*j+i][2] = 0;
+            }
+            temp = temp << 1;
+        }
+    }
+    ShowImage();
+
+
+    return true;
+}
+
+
+MatrixLed::~MatrixLed() {
     close(_fd);
 }

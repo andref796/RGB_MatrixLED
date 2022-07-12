@@ -2,11 +2,12 @@
 // Created by hyde on 19/06/22.
 //
 
-#ifndef RGB_I2C_H
-#define RGB_I2C_H
+#ifndef RGB_MATRIXLED_H
+#define RGB_MATRIXLED_H
 
 #include <linux/i2c-dev.h>
 #include <i2c/smbus.h>
+#include <vector>
 
 const __u8 CONFIGURE_CMD_PAGE = 0xFD;
 const __u8 FRAME1_PAGE = 0x00;
@@ -74,15 +75,16 @@ const __u8 Type3Vaf [64] ={
 
 
 
-class i2c {
+class MatrixLed {
 public:
-    i2c(int addr): _addr(addr){};
-    ~i2c();
+    MatrixLed(int addr): _addr(addr){};
+    ~MatrixLed();
     bool Open();
     bool Close();
     bool Init();
     bool ShowImage();
     bool DrawPoint(__u8 coor[2],__u8 R,__u8 G,__u8 B);
+    bool ShowHex(const __u8 * hex, __u8 R, __u8 G, __u8 B);
     bool Read();
 
 private:
@@ -94,4 +96,4 @@ private:
 };
 
 
-#endif //RGB_I2C_H
+#endif //RGB_MATRIXLED_H
